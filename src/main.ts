@@ -56,7 +56,8 @@ async function bootstrap() {
   app.enableCors();
   app.setGlobalPrefix('api');
 
-  await app.listen(3000);
+  const port = Number(configService.get<string>('PORT') ?? process.env.PORT ?? 3000);
+  await app.listen(port);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 
