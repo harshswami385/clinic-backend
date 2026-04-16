@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import * as dotenv from 'dotenv';
 import * as admin from 'firebase-admin';
-import { DataSource } from 'typeorm';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
@@ -21,20 +20,6 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     })
   );
-
-  // (Optional) Test DB connection
-  try {
-    const dataSource = new DataSource({
-      type: 'postgres',
-      url: configService.get<string>('DATABASE_URL'),
-      ssl: { rejectUnauthorized: false },
-    });
-    await dataSource.initialize();
-    console.log('Database connection successful');
-    await dataSource.destroy();
-  } catch (err) {
-    console.error('Database connection error:', err);
-  }
 
   // Initialize Firebase
   try {
